@@ -1,0 +1,24 @@
+{
+    "name": "Fanta",
+    "company_url": "https://fanta.com",
+    "location": "Italy, Roma",
+    "revenue": "$365M",
+    "leads": [
+        {
+            "full_name": "Joe Doe",
+            "job_title": "CEO",
+            "profile_url": "https://linkedin.com/in/joedoe",
+            "location": "Italy",
+            "email": "mail@domain.com",
+            "phone_number": "+1-354-489-4804"
+        },
+        {
+            "full_name": "Jim Beam",
+            "job_title": "Welder",
+            "profile_url": "https://linkedin.com/in/beamjim",
+            "location": "UK",
+            "email": "mail@domain.com",
+            "phone_number": "+2-354-666-4804"
+        }
+    ]
+}

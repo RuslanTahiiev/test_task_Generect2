@@ -1,0 +1,16 @@
+{
+    "name": "Coca-Cola",
+    "company_url": "https://cocacola.com",
+    "location": "UK, London",
+    "revenue": "$675M",
+    "leads": [
+        {
+            "full_name": "Big Ben",
+            "job_title": "SMM",
+            "profile_url": "https://linkedin.com/in/bigben",
+            "location": "UK",
+            "email": "mail@domain.com",
+            "phone_number": "+2-354-489-4804"
+        }
+    ]
+}
