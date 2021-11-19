@@ -45,6 +45,9 @@ class Lead:
         self.email = email
         self.phone_number = phone_number
 
+    def __repr__(self):
+        return f'{self.full_name}'
+
     def add_lead_to_company(self):
         return self._format_json()
 
@@ -72,7 +75,7 @@ class Company:
         return f'{self.name} in list!\n'
 
     def create_company_report(self):
-        self._create_data()
+        lead = self.__create_data()
 
         if not os.path.exists(RESULT_ROOT):
             os.mkdir(RESULT_ROOT)
@@ -82,7 +85,7 @@ class Company:
         with open(f'{RESULT_ROOT}/{self.name}_report.json', 'w', encoding='utf-8') as file:
             json.dump(self._format_json(), file, indent=4, ensure_ascii=False)
 
-        return self._format_json()
+        return lead
 
     def _format_json(self):
         return {
@@ -93,11 +96,14 @@ class Company:
                 "leads": self.leads
             }
 
-    def _create_data(self):
+    def __create_data(self):
+        response = []
         persons = Hub.get_req('list_of_persons')
         for person in persons:
+            print(person['company_fk'])
             if person['company_fk'] == self.company_url:
                 param = person['profile_url']
+                print(param)
                 data = Hub.get_req(f'person?pk={param}')
                 lead = Lead(
                     full_name=data['full_name'],
@@ -107,19 +113,22 @@ class Company:
                     email=data['email'],
                     phone_number=data['phone_number']
                 )
+                response.append(lead.add_lead_to_company())
                 self.leads.append(lead.add_lead_to_company())
-                print('Success!')
+        return response
 
 
 class Searcher:
     '''
-        Enter point
+        Entry point
     '''
     def __init__(self):
         self.companies = Hub.get_req('list_of_companies')
+        self.response_list = []
 
     def go(self):
         self.__parser_list_of_companies()
+        return self.response_list
 
     def __parser_list_of_companies(self):
         for c in self.companies:
@@ -132,6 +141,6 @@ class Searcher:
                     revenue=company['revenue']
             )
             print('Create company report for: ', company_obj)
-            company_obj.create_company_report()
+            self.response_list.extend(company_obj.create_company_report())
         print('Done!')
 
